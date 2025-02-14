@@ -37,7 +37,7 @@ class MakeEcar(Car):
 class CarDealer:
     def __init__(self):
         self.carlist = [] #list that stores all cars
-        self.carID = 0
+        self.carID = 1
         self.filteredCars = self.carlist
 
 
@@ -107,14 +107,18 @@ class CarDealer:
             print("Cars have been loaded")
 
     def displayInfo(self):
-        for i in range(len(self.filteredCars)): #print all filtered cars
-            self.filteredCars[i].displayInfo()
-            print("")
+        if len(self.filteredCars) != 0:
+            for i in range(len(self.filteredCars)): #print all filtered cars
+                self.filteredCars[i].displayInfo()
+                print("")
+            print(f"There are {len(self.filteredCars)} that match your filters")
+        else:
+            print("\nNo cars have been found that match your filters")
 
 
     def filter(self):
         allowedFilters = ["id","price","year","model","brand","vehicle type","vehicle","type","reset","used"]
-        filterBy = input("What do you what to filter by? (ID, price, year, model, brand, used, vehicle type) or reset filter: ").lower() #get what user wants to change
+        filterBy = input("What do you what to filter by? (ID, price, year, model, brand, used, vehicle type (fuel/electric) or reset filter: ").lower() #get what user wants to change
         while not filterBy in allowedFilters:
             filterBy = input("What do you what to filter by? (ID, price, year, model, brand, vehicle type) or reset filter: ").lower()  # get what user wants to change
 
@@ -123,6 +127,7 @@ class CarDealer:
         if filterBy == "reset":
            self.filteredCars = self.carlist
            return
+
 
         filteredCarTemp = [] # make list of sorted cars, if it changed original list, the size would change and it whould be out of index
         if filterBy == "ID" or filterBy == "price" or filterBy == "year": # sorted diffrently if it is a number or not
@@ -182,7 +187,6 @@ class CarDealer:
             carID = input("What is the ID for the car you want to sell (numbers only): ")
         carID = int(carID)
 
-        # print(f"Sold car for {self.carlist[carID-1].price}")
         try:
             del self.carlist[carID]
             for i in range(len(self.filteredCars)):
