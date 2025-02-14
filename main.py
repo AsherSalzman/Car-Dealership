@@ -230,6 +230,11 @@ option: """))
             self.run = False
 
 dealershipRun = Menu()
-dealershipRun.load(dealershipRun.file) #load so the cars are added at first
+try:
+    dealershipRun.load(dealershipRun.file) #load so the cars are added at first
+except:
+    print("File does not exist making file now")
+    open(dealershipRun.file,"w")
+    print("File has been made")
 while dealershipRun.run:
     dealershipRun.runMenu()
