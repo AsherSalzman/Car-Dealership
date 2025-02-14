@@ -113,8 +113,8 @@ class CarDealer:
 
 
     def filter(self):
-        allowedFilters = ["id","price","year","model","brand","vehicle type","vehicle","type","reset"]
-        filterBy = input("What do you what to filter by? (ID, price, year, model, brand, vehicle type) or reset filter: ").lower() #get what user wants to change
+        allowedFilters = ["id","price","year","model","brand","vehicle type","vehicle","type","reset","used"]
+        filterBy = input("What do you what to filter by? (ID, price, year, model, brand, used, vehicle type) or reset filter: ").lower() #get what user wants to change
         while not filterBy in allowedFilters:
             filterBy = input("What do you what to filter by? (ID, price, year, model, brand, vehicle type) or reset filter: ").lower()  # get what user wants to change
 
@@ -143,12 +143,15 @@ class CarDealer:
 
 
         else:
-            sort = input(f"What {filterBy} do you want to sort by: ").lower() #if not a number need to sort differently
+            if filterBy == "used": #if user picked used then the else statement won't make sense
+                sort = input("Has the car been used (yes/no): ")
+            else:
+                sort = input(f"What {filterBy} do you want to sort by: ").lower() #if not a number need to sort differently
             if filterBy == "vehicle type" or filterBy == "vehicle" or filterBy == "type": #if sorting by vehicle type, it sorts by checking what class it is.
                 if sort == "fuel":
                     for i in range(len(self.filteredCars)):
-                        if isinstance(self.filteredCars[i], MakeFcar):
-                            filteredCarTemp.append(self.filteredCars[i])
+                        if isinstance(self.filteredCars[i], MakeFcar): #check if fuel car
+                            filteredCarTemp.append(self.filteredCars[i]) #if yes add to filtered cars
                 else:
                     for i in range(len(self.filteredCars)):
                         if isinstance(self.filteredCars[i], MakeEcar):
@@ -156,9 +159,10 @@ class CarDealer:
 
             else: #if not sorting by vehicle type it just checks if it is equal to the filter.
                 for i in range(len(self.filteredCars)):
-                    if getattr(self.filteredCars[i], filterBy).lower() == sort:
+                    if getattr(self.filteredCars[i], filterBy).lower() == sort.lower():
                         filteredCarTemp.append((self.filteredCars[i]))
         self.filteredCars = filteredCarTemp.copy() #move filteredCarTemp to filteredCars
+        print("cars have been filtered")
 
 
     def updatePrice(self):
