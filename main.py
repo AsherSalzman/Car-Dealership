@@ -43,13 +43,25 @@ class CarDealer:
 
     def addCar(self):
         fORe = input("do you want to add a fuel or electric car? (f/e) ").lower() #check what car needs to be added
+        while fORe != "f" and fORe != "e":
+            fORe = input("do you want to add a fuel or electric car? (f/e) ").lower()  # check what car needs to be added
         ID = self.carID #give car ID
         self.carID += 1 #add one to car ID so next car has diff
         brand = input("Give me a brand: ")
         model = input("Give me a model: ")
+
         year = input("Give me a year: ")
-        price = input("Give me a price: ").replace(",","")
+        while not year.isdigit(): #stop someone from adding letters
+            year = input("Give me a year (only numbers): ")
+
+        price = input("Give me a price: ").replace(",","").replace("$","")
+        while not price.isdigit():#stop someone from adding letters
+            price = input("Give me a price (only numbers): ").replace(",", "").replace("$", "")
+
         milage = input("Give me a milage: ").replace(",","")
+        while not milage.isdigit():#stop someone from adding letters
+            milage = input("Give me a milage (only numbers): ").replace(",", "")
+
         color = input("What color is the car: ")
         used = input("Was the car used: ")
         moreInfo = input("Any more info about the car: ")
@@ -77,7 +89,7 @@ class CarDealer:
 
 
     def load(self,invintory): #load file to carlist
-        with open("ashersDealership.txt","r") as file:
+        with open(invintory,"r") as file:
             self.carlist = [] #reset carlist
             tempList = []
             amountOfLines = len(file.readlines()) #get amount of lines
@@ -92,6 +104,7 @@ class CarDealer:
                 else: #readd the cars to the list by running it through the
                     self.carlist.append(MakeEcar(tempCar[1],tempCar[2],tempCar[3],tempCar[4],tempCar[5],tempCar[6],tempCar[7],tempCar[8],tempCar[9],tempCar[10]))
             self.filteredCars = self.carlist
+            print("Cars have been loaded")
 
     def displayInfo(self):
         for i in range(len(self.filteredCars)): #print all filtered cars
@@ -100,7 +113,11 @@ class CarDealer:
 
 
     def filter(self):
-        filterBy = input("what do you what to filter by? (ID, price, year, model, brand, vehicle type) or reset filter: ").lower() #get what user wants to change
+        allowedFilters = ["id","price","year","model","brand","vehicle type","vehicle","type","reset"]
+        filterBy = input("What do you what to filter by? (ID, price, year, model, brand, vehicle type) or reset filter: ").lower() #get what user wants to change
+        while not filterBy in allowedFilters:
+            filterBy = input("What do you what to filter by? (ID, price, year, model, brand, vehicle type) or reset filter: ").lower()  # get what user wants to change
+
         if filterBy == "id": #change id to ID b/c "id" is not part of MakeCar class
             filterBy = "ID"
         if filterBy == "reset":
@@ -110,9 +127,15 @@ class CarDealer:
         filteredCarTemp = [] # make list of sorted cars, if it changed original list, the size would change and it whould be out of index
         if filterBy == "ID" or filterBy == "price" or filterBy == "year": # sorted diffrently if it is a number or not
 
-            lowest = int(input(f"What is the lowest {filterBy} you want to sort by: ")) #get nums to sort by
-            highest = int(input(f"what is the highest {filterBy} you want to sort by: "))
+            lowest = input(f"What is the lowest {filterBy} you want to sort by: ").replace(",","").replace("$","") #get nums to sort by
+            while not lowest.isdigit(): #check if user only put numbers
+                lowest = input(f"What is the lowest {filterBy} you want to sort by (numbers only): ").replace(",","").replace("$","")
+            lowest = int(lowest) #turn to int
 
+            highest = input(f"What is the highest {filterBy} you want to sort by: ").replace(",","").replace("$","") #get nums to sort by
+            while not highest.isdigit(): #check if user only put numbers
+                highest = input(f"What is the highest {filterBy} you want to sort by (numbers only): ").replace(",","").replace("$","")
+            highest = int(highest) #turn to int
 
             for i in range(len(self.filteredCars)):
                 if lowest <= int(getattr(self.filteredCars[i], filterBy)) <= highest: #check if car passes filter
@@ -120,7 +143,7 @@ class CarDealer:
 
 
         else:
-            sort = input(f"what {filterBy} do you want to sort by: ").lower() #if not a number need to sort differently
+            sort = input(f"What {filterBy} do you want to sort by: ").lower() #if not a number need to sort differently
             if filterBy == "vehicle type" or filterBy == "vehicle" or filterBy == "type": #if sorting by vehicle type, it sorts by checking what class it is.
                 if sort == "fuel":
                     for i in range(len(self.filteredCars)):
@@ -140,23 +163,41 @@ class CarDealer:
 
     def updatePrice(self):
         updateID = input("What is the ID for the car you want to update the price off: ")
+        while not updateID.isdigit():
+            updateID = input("What is the ID for the car you want to update the price off (numbers only): ")
+
         newPrice = input("What is the new price you want: ")
-        self.carlist[int(updateID)].price = newPrice
+        while not newPrice.isdigit():
+            newPrice = input("What is the new price you want (numbers only): ")
+        self.carlist[int(updateID)].price = newPrice #update price of car
 
     def sellCar(self):
-        carID = int(input("What is the ID for the car you want to sell: "))
+        delcar = -1
+        carID = input("What is the ID for the car you want to sell: ")
+        while not carID.isdigit():
+            carID = input("What is the ID for the car you want to sell (numbers only): ")
+        carID = int(carID)
+
         # print(f"Sold car for {self.carlist[carID-1].price}")
-        del self.carlist[carID]
-        for i in range(len(self.filteredCars)):
-            if int(self.filteredCars[i].ID) == carID:
-                delcar = i
-        del self.filteredCars[delcar]
+        try:
+            del self.carlist[carID]
+            for i in range(len(self.filteredCars)):
+                if int(self.filteredCars[i].ID) == carID:
+                    delcar = i
+                    break
+            try:
+                del self.filteredCars[delcar]  # del car after so list does not get shorter
+                print("Car has been sold")
+            except:
+                print("Cant find car ID")
+        except:
+            print("Cant find car ID")
 
 
 
 class Menu(CarDealer):
     def __init__(self):
-        super().__init__()
+        super().__init__() #get vars from CarDealership
         self.run = True
         self.file = input("Give me the file name: ")
     def runMenu(self):
@@ -184,10 +225,11 @@ option: """))
         if pick == 6:
             self.load(self.file)
         if pick == 7:
-            CarDealer.save(self.file)
+            self.save(self.file)
+            print("Saved and Exited")
             self.run = False
 
 dealershipRun = Menu()
-dealershipRun.load(dealershipRun.file)
+dealershipRun.load(dealershipRun.file) #load so the cars are added at first
 while dealershipRun.run:
     dealershipRun.runMenu()
