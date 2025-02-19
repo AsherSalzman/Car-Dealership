@@ -10,6 +10,8 @@ class Car:
         self.used = used
         self.moreInfo = moreInfo
 
+
+
 class MakeFcar(Car):
     def __init__(self, ID, brand, model, year, price, milage, color, used, fuelType, moreInfo):
         super().__init__(ID, brand, model, year, price, milage, color, used, moreInfo) #get peramiter that every car needs.
@@ -20,6 +22,8 @@ class MakeFcar(Car):
         nicePrice = "{:,}".format(int(float(self.price)))
         niceMilage = "{:,}".format(int(float(self.milage)))
         print(f"ID: {self.ID} | Type: Fuel | Brand: {self.brand} | Model: {self.model} | Year: {self.year} | Price: ${nicePrice} | Milage: {niceMilage} | Color: {self.color} | Used: {self.used} | Fuel Type: {self.fuelType} | More Info: '{self.moreInfo}'")
+
+
 
 class MakeEcar(Car):
     def __init__(self, ID, brand, model, year, price, milage, color, used, chargeTime, moreInfo):
@@ -32,6 +36,17 @@ class MakeEcar(Car):
         print(f"ID: {self.ID} | Type: Electric | Brand: {self.brand} | Model: {self.model} | Year: {self.year} | Price: ${nicePrice} | Milage: {niceMilage} | Color: {self.color} | Used: {self.used} | Charge Time: {self.chargeTime} | More Info: '{self.moreInfo}'")
 
 
+class MakeHcar(Car):
+    def __init__(self, ID, brand, model, year, price, milage, color, used, fuelType, chargeTime, moreInfo):
+        super().__init__(ID,brand, model, year, price, milage, color, used, moreInfo) #get peramiter that every car needs.
+        self.fuelType = fuelType #add both fuel and electric
+        self.chargeTime = chargeTime
+
+    def displayInfo(self):
+        nicePrice = "{:,}".format(int(float(self.price)))
+        niceMilage = "{:,}".format(int(float(self.milage)))
+        print(f"ID: {self.ID} | Type: Hybrid | Brand: {self.brand} | Model: {self.model} | Year: {self.year} | Price: ${nicePrice} | Milage: {niceMilage} | Color: {self.color} | Used: {self.used} | Fuel Type: {self.fuelType} | Charge Time: {self.chargeTime} | More Info: '{self.moreInfo}'")
+
 
 
 class CarDealer:
@@ -42,9 +57,9 @@ class CarDealer:
 
 
     def addCar(self):
-        fORe = input("do you want to add a fuel or electric car? (f/e) ").lower() #check what car needs to be added
-        while fORe != "f" and fORe != "e":
-            fORe = input("do you want to add a fuel or electric car? (f/e) ").lower()  # check what car needs to be added
+        fORe = input("do you want to add a fuel, electric or hybrid car? (f/e/h) ").lower() #check what car needs to be added
+        while fORe != "f" and fORe != "e" and fORe != "h":
+            fORe = input("do you want to add a fuel, electric or hybrid car? (f/e/h) ").lower()  # check what car needs to be added
         ID = self.carID #give car ID
         self.carID += 1 #add one to car ID so next car has diff
         brand = input("Give me a brand: ")
@@ -68,9 +83,13 @@ class CarDealer:
         if fORe == "f": #pick between fuel or electric
             fuelType = input("Give me a fuel type: ")
             self.carlist.append(MakeFcar(ID, brand, model, year, price, milage, color, used, fuelType, moreInfo))
-        else:
+        elif fORe == "e":
             chargeTime = input("Give me the charge time: ")
             self.carlist.append(MakeEcar(ID, brand, model, year, price, milage, color, used, chargeTime, moreInfo))
+        elif fORe == "h":
+            fuelType = input("Give me a fuel type: ")
+            chargeTime = input("Give me the charge time: ")
+            self.carlist.append(MakeHcar(ID, brand, model, year, price, milage, color, used, fuelType, chargeTime, moreInfo))
 
 
     def save(self,invintory): #save carlist to file
@@ -79,8 +98,11 @@ class CarDealer:
             for i in self.carlist:
                 if isinstance(i, MakeFcar): #check if it is a fuel car or not, need to add diffrent things to file
                     line.append(f"f,{i.ID},{i.brand},{i.model},{i.year},{i.price},{i.milage},{i.color},{i.used},{i.fuelType},{i.moreInfo}")
-                else:
+                elif isinstance(i, MakeEcar):
                     line.append(f"e,{i.ID},{i.brand},{i.model},{i.year},{i.price},{i.milage},{i.color},{i.used},{i.chargeTime},{i.moreInfo}")
+                elif isinstance(i, MakeHcar):
+                    line.append(f"h,{i.ID},{i.brand},{i.model},{i.year},{i.price},{i.milage},{i.color},{i.used},{i.fuelType},{i.chargeTime},{i.moreInfo}")
+
 
             file.seek(0) #move curser to first line
             for i in range(len(line)): #write every line to file
@@ -101,10 +123,13 @@ class CarDealer:
                 tempCar = tempList[i][0].replace("$","").split(",")
                 if tempCar[0] == "f":
                     self.carlist.append(MakeFcar(tempCar[1],tempCar[2],tempCar[3],tempCar[4],tempCar[5],tempCar[6],tempCar[7],tempCar[8],tempCar[9],tempCar[10]))
-                else: #readd the cars to the list by running it through the
+                elif tempCar[0] == "e":
                     self.carlist.append(MakeEcar(tempCar[1],tempCar[2],tempCar[3],tempCar[4],tempCar[5],tempCar[6],tempCar[7],tempCar[8],tempCar[9],tempCar[10]))
+                elif tempCar[0] == "h":
+                    self.carlist.append(MakeHcar(tempCar[1],tempCar[2],tempCar[3],tempCar[4],tempCar[5],tempCar[6],tempCar[7],tempCar[8],tempCar[9],tempCar[10],tempCar[11]))
             self.filteredCars = self.carlist
             print("Cars have been loaded")
+
 
     def displayInfo(self):
         if len(self.filteredCars) != 0:
@@ -118,9 +143,11 @@ class CarDealer:
 
     def filter(self):
         allowedFilters = ["id","price","year","model","brand","vehicle type","vehicle","type","reset","used"]
-        filterBy = input("What do you what to filter by? (ID, price, year, model, brand, used, vehicle type (fuel/electric) or reset filter: ").lower() #get what user wants to change
+        filterBy = input("What do you what to filter by? (ID, price, year, model, brand, used, vehicle type (fuel/electric/hybrid) or reset filter: ").lower() #get what user wants to change
         while not filterBy in allowedFilters:
-            filterBy = input("What do you what to filter by? (ID, price, year, model, brand, vehicle type) or reset filter: ").lower()  # get what user wants to change
+            filterBy = input(
+                "What do you what to filter by? (ID, price, year, model, brand, used, vehicle type (fuel/electric/hybrid) or reset filter: ").lower()  # get what user wants to change
+
 
         if filterBy == "id": #change id to ID b/c "id" is not part of MakeCar class
             filterBy = "ID"
@@ -132,7 +159,7 @@ class CarDealer:
         filteredCarTemp = [] # make list of sorted cars, if it changed original list, the size would change and it whould be out of index
         if filterBy == "ID" or filterBy == "price" or filterBy == "year": # sorted diffrently if it is a number or not
 
-            lowest = input(f"What is the lowest {filterBy} you want to sort by: ").replace(",","").replace("$","") #get nums to sort by
+            lowest = input(f"What is the lowest {filterBy}  you want to sort by: ").replace(",","").replace("$","") #get nums to sort by
             while not lowest.isdigit(): #check if user only put numbers
                 lowest = input(f"What is the lowest {filterBy} you want to sort by (numbers only): ").replace(",","").replace("$","")
             lowest = int(lowest) #turn to int
@@ -146,7 +173,6 @@ class CarDealer:
                 if lowest <= int(getattr(self.filteredCars[i], filterBy)) <= highest: #check if car passes filter
                     filteredCarTemp.append(self.filteredCars[i]) #add to filtered cars
 
-
         else:
             if filterBy == "used": #if user picked used then the else statement won't make sense
                 sort = input("Has the car been used (yes/no): ")
@@ -157,9 +183,13 @@ class CarDealer:
                     for i in range(len(self.filteredCars)):
                         if isinstance(self.filteredCars[i], MakeFcar): #check if fuel car
                             filteredCarTemp.append(self.filteredCars[i]) #if yes add to filtered cars
-                else:
+                elif sort == "electric":
                     for i in range(len(self.filteredCars)):
                         if isinstance(self.filteredCars[i], MakeEcar):
+                            filteredCarTemp.append(self.filteredCars[i])
+                elif sort == "hybrid":
+                    for i in range(len(self.filteredCars)):
+                        if isinstance(self.filteredCars[i], MakeHcar):
                             filteredCarTemp.append(self.filteredCars[i])
 
             else: #if not sorting by vehicle type it just checks if it is equal to the filter.
@@ -179,6 +209,7 @@ class CarDealer:
         while not newPrice.isdigit():
             newPrice = input("What is the new price you want (numbers only): ")
         self.carlist[int(updateID)].price = newPrice #update price of car
+
 
     def sellCar(self):
         delcar = -1
@@ -237,12 +268,15 @@ option: """))
             print("Saved and Exited")
             self.run = False
 
+
+
 dealershipRun = Menu()
 try:
     dealershipRun.load(dealershipRun.file) #load so the cars are added at first
 except:
     print("File does not exist making file now")
-    open(dealershipRun.file,"w")
+    tempFile = open(dealershipRun.file,"w")
+    tempFile.close()
     print("File has been made")
 while dealershipRun.run:
     dealershipRun.runMenu()
