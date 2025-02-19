@@ -201,36 +201,44 @@ class CarDealer:
 
 
     def updatePrice(self):
-        updateID = input("What is the ID for the car you want to update the price off: ")
-        while not updateID.isdigit():
-            updateID = input("What is the ID for the car you want to update the price off (numbers only): ")
+        updateID = input("What is the ID for the car you want to update the price off (-1 to cancel): ")
+        if updateID == "-1":
+            print("\nExit")
+        else:
+            while not updateID.isdigit():
+                updateID = input("What is the ID for the car you want to update the price off (numbers only): ")
 
-        newPrice = input("What is the new price you want: ")
-        while not newPrice.isdigit():
-            newPrice = input("What is the new price you want (numbers only): ")
-        self.carlist[int(updateID)].price = newPrice #update price of car
+            newPrice = input("What is the new price you want: ")
+            while not newPrice.isdigit():
+                newPrice = input("What is the new price you want (numbers only): ")
+            self.carlist[int(updateID)].price = newPrice #update price of car
 
 
     def sellCar(self):
         delcar = -1
-        carID = input("What is the ID for the car you want to sell: ")
-        while not carID.isdigit():
-            carID = input("What is the ID for the car you want to sell (numbers only): ")
-        carID = int(carID)
+        carID = input("What is the ID for the car you want to sell (-1 to cancel): ")
+        if carID == "-1":
+            print("\nExit")
+        else:
+            while not carID.isdigit():
+                carID = input("What is the ID for the car you want to sell (numbers only): ")
+            carID = int(carID)
 
-        try:
-            del self.carlist[carID]
-            for i in range(len(self.filteredCars)):
-                if int(self.filteredCars[i].ID) == carID:
-                    delcar = i
-                    break
             try:
-                del self.filteredCars[delcar]  # del car after so list does not get shorter
-                print("Car has been sold")
+                for i in self.carlist:
+                    if i.ID == carID:
+                        del i
+                for i in range(len(self.filteredCars)):
+                    if int(self.filteredCars[i].ID) == carID:
+                        delcar = i
+                        break
+                try:
+                    del self.filteredCars[delcar]  # del car after so list does not get shorter
+                    print("Car has been sold")
+                except:
+                    print("Cant find car ID")
             except:
                 print("Cant find car ID")
-        except:
-            print("Cant find car ID")
 
 
 
