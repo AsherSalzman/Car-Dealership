@@ -1,0 +1,45 @@
+f,1,Toyota,Corolla,2015,12500,89000,White,Yes,Gasoline,Minor scratches on the rear bumper
+e,2,Tesla,Model 3,2020,35000,45000,Red,No,6 hours,Battery in excellent condition
+h,3,Toyota,Prius,2018,22000,72000,Silver,Yes,Hybrid,6.5 hours,Well-maintained battery
+f,4,Ford,F-150,2018,27000,120000,Blue,Yes,Diesel,New tires installed last month
+e,5,Nissan,Leaf,2019,18000,36000,Silver,No,5.5 hours,Charger included
+h,6,Honda,Accord,2020,28000,50000,Gray,No,Hybrid,7 hours,Excellent fuel economy
+f,7,Chevrolet,Malibu,2017,14000,102000,Black,Yes,Gasoline,Some fading paint on the hood
+e,8,Rivian,R1T,2023,65000,8000,Gray,No,7 hours,Off-road ready
+h,9,Ford,Escape,2019,25000,60000,Blue,Yes,Hybrid,6.5 hours,Recently serviced transmission
+e,10,Lucid,Air,2022,74000,12000,White,No,8.5 hours,No mechanical issues
+f,11,Honda,Civic,2016,11000,88000,Blue,Yes,Gasoline,New spark plugs and battery
+e,12,BMW,i3,2018,22000,42000,Black,No,5 hours,Good battery health
+h,13,Toyota,Camry,2021,31000,25000,Silver,No,Hybrid,7 hours,Great MPG
+f,14,Dodge,Charger,2019,28000,55000,Red,Yes,Gasoline,Performance tires added
+e,15,Nissan,Ariya,2023,45000,9000,Black,No,7 hours,Fast charging enabled
+h,16,Hyundai,Ioniq,2020,24000,40000,White,No,Hybrid,6.5 hours,Recently detailed interior
+f,17,Subaru,Outback,2017,19000,95000,Green,Yes,Gasoline,Well-maintained AWD system
+e,18,Porsche,Taycan,2022,95000,6000,White,No,9.5 hours,Premium sound system
+h,19,Lexus,RX 450h,2021,48000,22000,Gray,No,Hybrid,7 hours,Luxury interior
+f,20,Jeep,Wrangler,2015,22500,110000,Green,Yes,Gasoline,Great off-road condition
+e,21,Tesla,Model Y,2021,52000,18000,Blue,No,7 hours,Full self-driving enabled
+h,22,Ford,Maverick,2022,29000,17000,Blue,No,Hybrid,6.5 hours,Great fuel efficiency
+f,23,Chevrolet,Equinox,2017,15500,88000,Black,Yes,Gasoline,New brake pads
+e,24,Volkswagen,ID.4,2021,39000,22000,Gray,No,6.5 hours,Interior like new
+h,25,Toyota,RAV4,2019,32000,50000,Red,Yes,Hybrid,7 hours,Good hybrid battery
+f,26,Mercedes,C-Class,2020,30000,32000,Gray,No,Gasoline,No visible damage
+e,27,Tesla,Model X,2022,85000,14000,White,No,9 hours,Autopilot enabled
+h,28,Kia,Niro,2020,27000,35000,Black,No,Hybrid,6.5 hours,Recently serviced
+f,29,Ford,Explorer,2017,20000,105000,Gray,Yes,Gasoline,Leather seats in fair condition
+e,30,Mercedes,EQC,2022,67000,11000,Gray,No,8 hours,Luxury interior
+f,31,Toyota,RAV4,2018,20500,85000,Red,Yes,Gasoline,Good hybrid battery
+e,32,Audi,e-tron,2021,58000,21000,Black,No,7 hours,No accidents
+h,33,Honda,Insight,2020,26000,34000,Silver,No,Hybrid,6.5 hours,Recently serviced
+f,34,Hyundai,Tucson,2017,16000,92000,Silver,Yes,Gasoline,All-season tires
+e,35,Tesla,Model S,2022,79000,14000,White,No,9 hours,High-range battery
+h,36,Subaru,Crosstrek,2019,28500,47000,Blue,Yes,Hybrid,7 hours,Well-maintained AWD
+f,37,Ford,Mustang,2020,32000,40000,Red,Yes,Gasoline,Some minor curb rash on wheels
+e,38,Nissan,Leaf,2018,16500,41000,Gray,No,5.5 hours,Battery at 90% health
+h,39,Toyota,Highlander,2021,42000,29000,White,No,Hybrid,7 hours,Luxury interior
+f,40,Chevrolet,Equinox,2017,15500,88000,Black,Yes,Gasoline,New brake pads
+e,41,Lucid,Air,2023,82000,8000,White,No,8.5 hours,No visible damage
+h,42,Ford,Fusion,2019,24500,52000,Silver,No,Hybrid,6.5 hours,Recently replaced battery
+f,43,Honda,CR-V,2019,19500,70000,Silver,Yes,Gasoline,Recently polished
+e,44,Tesla,Model X,2021,88000,12000,Blue,No,9 hours,Self-driving features active
+h,45,Kia,Sportage,2022,33000,19000,Red,No,Hybrid,7 hours,Great fuel efficiency
